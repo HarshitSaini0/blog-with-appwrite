@@ -34,22 +34,26 @@ export default function PostForm({ post }) {
         if (file) {
           await appwriteService.deleteFile(post.featuredImage);
         }
-
+        data.featuredImage = file ? file.$id : undefined;
         const dbPost = await appwriteService.updateBlog(post.$id, {
-          ...data,
-          featuredImage: file ? file.$id : undefined,
+          ...data
         });
         if (dbPost) {
-          navigate(`/posts/${dbPost.$id}`);
+          navigate(`/post/${dbPost.$id}`);
         }
       } else {
         const file = await appwriteService.uploadFile(data.image[0]);
         if (file) {
           const fileId = file.$id;
+          console.log(fileId);
+          
           data.featuredImage = fileId;
+          // console.log(userData.$id);
+          data.owner_id = userData.$id;
+          
           const dbPost = await appwriteService.createBlog({
-            ...data, 
-            userId: userData.$id,
+            ...data
+           
           });
 
           if (dbPost) {
@@ -123,7 +127,7 @@ export default function PostForm({ post }) {
         {post && (
           <div className="w-full mb-4">
             <img
-              src={appwriteService.getFilePreview(post.featuredImage)}
+              src={appwriteService.getBlogFilePreview(post.featuredImage)}
               alt={post.title}
               className="w-full h-64 object-cover rounded-lg"
             />

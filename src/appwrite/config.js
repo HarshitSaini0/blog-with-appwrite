@@ -40,6 +40,7 @@ export class Services {
   async createBlog({
     title,
     content,
+    owner_id,
     published = true,
     author = "Anonymous",
     tags = [],
@@ -50,7 +51,6 @@ export class Services {
       if(!featuredImage){
         featuredImage = await this.uploadFile(featuredImage);
       }
-      console.log(featuredImage);
       
 
       const createdBlog = await this.database.createDocument(
@@ -64,6 +64,7 @@ export class Services {
           author,
           tags,
           featuredImage,
+          owner_id
         }
       );
       if(createdBlog){
@@ -78,7 +79,7 @@ export class Services {
     }
   }
 
-  async updateBlog(blog_id, { title, content, published, author, tags }) {
+  async updateBlog(blog_id, { title, content, published, author, tags,featuredImage,slug }) {
     try {
       return await this.database.updateDocument(
         conf.db_id,
@@ -90,6 +91,8 @@ export class Services {
           published,
           author,
           tags,
+          slug,
+          featuredImage
         }
       );
     } catch (error) {

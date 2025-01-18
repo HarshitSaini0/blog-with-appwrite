@@ -1,11 +1,17 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 import React from "react";
-import { Controller } from "react-hook-form";
+import { useForm,Controller } from "react-hook-form";
 import { Editor } from "@tinymce/tinymce-react";
+import conf from "../conf/conf";
 
 function RTE({ name, control, label, defaultValue = "" }) {
-  console.log(import.meta.env.VITE_TINYMCE_API_KEY);
+  
+  const { handleSubmit } = useForm({
+    defaultValues: {
+      content: defaultValue,
+    },
+  });
   
   return (
     <div className="w-full">
@@ -16,7 +22,7 @@ function RTE({ name, control, label, defaultValue = "" }) {
         defaultValue={defaultValue}
         render={({ field: { onChange } }) => (
           <Editor
-          apiKey= "t8justbk6uovee0497vahntwah4awlx4ngnnmbek84u3cz3v"
+          apiKey= {conf.tinyMCE}
             initialValue={defaultValue}
             init={{
               branding: false,

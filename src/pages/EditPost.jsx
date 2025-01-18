@@ -1,38 +1,49 @@
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom';
-import appwriteService from '../appwrite/config.js';
-import Container from '../components/Container/Container.jsx';
-import RTE from '../components/RTE.jsx';
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import appwriteService from "../appwrite/config.js";
+import Container from "../components/Container/Container.jsx";
+import RTE from "../components/RTE.jsx";
+import PostForm from "../components/post-form/PostForm.jsx";
 
 function EditPost() {
-
   const [post, setPost] = useState(null);
-  const {postId} = useParams();
+  const { postId } = useParams();
   const navigate = useNavigate();
+  const fetchPost = async () => {
+    if (postId) {
+      try {
+        await appwriteService.getBlog(postId).then((response) => {
+          if (response) {
+            setPost(response);
+            // console.log("Fetched response:", response);
+          } else {
+            navigate("/");
+          }
+        });
+      } catch (error) {
+        console.error("Failed to fetch the blog post:", error);
+        navigate("/");
+      }
+    }
+  };
+  useEffect(() => {
+    fetchPost();
+  }, [postId, navigate]);
 
   useEffect(() => {
-    if (postId) {
-      appwriteService.getBlog(postId).then((response) => {
-        if (response) {
-          setPost(response);
-        }
-        else {
-          navigate("/");
-        }
-      })
+    if (post) {
+      console.log("Post state updated:", post);
     }
+  }, [post]);
 
-      
-      },[postId, navigate]);
   return (
-    <div className='py-6'>
-             <Container>
-              <RTE post={post} />
-             </Container>
-
+    <div className="py-6">
+      <Container>
+        {post ? <PostForm post={post} /> : <div>Loading...</div>}
+      </Container>
     </div>
-  )
+  );
 }
 
-export default EditPost
+export default EditPost;

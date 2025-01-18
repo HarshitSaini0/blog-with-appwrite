@@ -14,6 +14,8 @@ function PostCard({ $id, title, featuredImage }) {
         try {
           // Await the promise to resolve and get the URL
           const url = await appwriteServices.getBlogFilePreview(featuredImage);
+          // console.log(url);
+          
           setImgUrl(url);
         } catch (error) {
           console.error("Error fetching image URL:", error);
