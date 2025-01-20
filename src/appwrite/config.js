@@ -17,7 +17,7 @@ export class Services {
     try {
       return await this.database.getDocument(
         conf.db_id,
-        conf.collection_id,
+        conf.blogs_collection_id,
         blog_id
       );
     } catch (error) {
@@ -29,7 +29,7 @@ export class Services {
     try {
       return await this.database.listDocuments(
         conf.db_id,
-        conf.collection_id,
+        conf.blogs_collection_id,
         queries
       );
     } catch (error) {
@@ -40,6 +40,7 @@ export class Services {
   async createBlog({
     title,
     content,
+    slug,
     owner_id,
     published = true,
     author = "Anonymous",
@@ -55,7 +56,7 @@ export class Services {
 
       const createdBlog = await this.database.createDocument(
         conf.db_id,
-        conf.collection_id,
+        conf.blogs_collection_id,
         ID.unique(),
         {
           title,
@@ -63,6 +64,7 @@ export class Services {
           published,
           author,
           tags,
+          slug,
           featuredImage,
           owner_id
         }
@@ -83,7 +85,7 @@ export class Services {
     try {
       return await this.database.updateDocument(
         conf.db_id,
-        conf.collection_id,
+        conf.blogs_collection_id,
         blog_id,
         {
           title,
@@ -104,9 +106,10 @@ export class Services {
   async deleteBlog(blog_id) {
     try {
       const featuredImageId = await this.getBlog(blog_id);
+      
       await this.database.deleteDocument(
         conf.db_id,
-        conf.collection_id,
+        conf.blogs_collection_id,
         blog_id
       );
       await this.deleteFile(featuredImageId);

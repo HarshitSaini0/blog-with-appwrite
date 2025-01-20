@@ -42,56 +42,59 @@ const Header = () => {
   ];
 
   return (
-        <header className="py-4 shadow-md bg-white">
-                <Container>
-                        <nav className="flex items-center justify-between">
-                                <div className="mr-6">
-                                        <Link to="/">
-                                                <Logo width="200px" />
-                                        </Link>
-                                </div>
-                                <div className="block lg:hidden">
-                                        <button
-                                                className="flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400 hover:text-white hover:bg-blue-500"
-                                                onClick={() => setIsOpen(!isOpen)}
-                                        >
-                                                <svg
-                                                        className="fill-current h-3 w-3"
-                                                        viewBox="0 0 20 20"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                        <title>Menu</title>
-                                                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
-                                                </svg>
-                                        </button>
-                                </div>
-                                <ul
-                                        className={`${
-                                                isOpen ? "block" : "hidden"
-                                        } lg:flex ml-auto space-x-4`}
-                                >
-                                        {navItems.map((item) =>
-                                                item.active ? (
-                                                        <li key={item.name}>
-                                                                <button
-                                                                        onClick={() => navigate(item.slug)}
-                                                                        className="px-4 py-2 text-gray-700 hover:text-white hover:bg-blue-500 rounded transition duration-300"
-                                                                >
-                                                                        {item.name}
-                                                                </button>
-                                                        </li>
-                                                ) : null
-                                        )}
-                                        {authStatus && (
-                                                <li>
-                                                        <LogoutBtn />
-                                                </li>
-                                        )}
-                                </ul>
-                        </nav>
-                </Container>
-        </header>
-);
-}
+    <header className="py-4 shadow-md bg-white">
+      <Container>
+        <nav className="flex items-center justify-between">
+          <div className="mr-6">
+            <Link to="/">
+              <Logo width="200px" />
+            </Link>
+          </div>
+          <div className="block md:hidden">
+            <button
+              className="flex items-center px-3 py-2 border rounded text-gray-700 border-gray-400 hover:text-white hover:bg-blue-500"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <svg
+                className="fill-current h-3 w-3"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <title>Menu</title>
+                <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z" />
+              </svg>
+            </button>
+          </div>
+          <ul
+            className={`${
+              isOpen ? "block" : "hidden"
+            } md:flex ml-auto space-x-4`}
+          >
+            {navItems.map((item) =>
+              item.active ? (
+                <li key={item.name}>
+                  <button
+                    onClick={() => {
+                      navigate(item.slug);
+                      setIsOpen(false);
+                    }}
+                    className="px-4 py-2 text-gray-700 hover:text-white hover:bg-blue-500 rounded transition duration-300"
+                  >
+                    {item.name}
+                  </button>
+                </li>
+              ) : null
+            )}
+            {authStatus && (
+              <li>
+                <LogoutBtn />
+              </li>
+            )}
+          </ul>
+        </nav>
+      </Container>
+    </header>
+  );
+};
 
 export default Header;
