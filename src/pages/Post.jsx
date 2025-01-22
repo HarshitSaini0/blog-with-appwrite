@@ -53,6 +53,10 @@ function Post() {
 
   const deletePost = async () => {
     try {
+      if (!postId) return;
+      const wantToDelete = prompt("Are you sure you want to delete this post?\nType 'DELETE' to confirm.");
+      if (prompt !== "DELETE") return;
+
       await appwriteService.deleteBlog(postId).then((status) => {
         if (status) {
           appwriteService.deleteFile(post.featuredImage);
@@ -69,13 +73,15 @@ function Post() {
 
   const handleLike = async () => {
     try {
+      console.log(userData.$id);
+      
       likeServices.toggleLike(postId, userData.$id).then((liked) => {
         if (!liked) {
-          setLikes(likes + 1);
-          setCurrentLike(true);
-        } else {
           setLikes(likes - 1);
           setCurrentLike(false);
+        } else {
+          setLikes(likes + 1);
+          setCurrentLike(true);
         }
       });
     } catch (error) {

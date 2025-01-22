@@ -1,5 +1,6 @@
-import { Client, Databases, ID, Query,Storage } from "appwrite";
+import { Client, Databases, ID, Query, Storage } from "appwrite";
 import conf from "../conf/conf";
+import likeServices from "./likes";
 
 export class Services {
   client = new Client();
@@ -7,8 +8,9 @@ export class Services {
   bucket;
 
   constructor() {
-    this.client.setProject(conf.project_id)// Your Appwrite Project ID
-    .setEndpoint(conf.endpoint)
+    this.client
+      .setProject(conf.project_id) // Your Appwrite Project ID
+      .setEndpoint(conf.endpoint);
     this.database = new Databases(this.client);
     this.bucket = new Storage(this.client);
   }
@@ -48,11 +50,9 @@ export class Services {
     featuredImage = null,
   }) {
     try {
-      
-      if(!featuredImage){
+      if (!featuredImage) {
         featuredImage = await this.uploadFile(featuredImage);
       }
-      
 
       const createdBlog = await this.database.createDocument(
         conf.db_id,
@@ -66,22 +66,23 @@ export class Services {
           tags,
           slug,
           featuredImage,
-          owner_id
+          owner_id,
         }
       );
-      if(createdBlog){
+      if (createdBlog) {
         return createdBlog;
       }
       return await this.deleteFile(featuredImage);
-       
-
     } catch (error) {
       console.error("Error creating blog:", error);
       throw error;
     }
   }
 
-  async updateBlog(blog_id, { title, content, published, author, tags,featuredImage,slug }) {
+  async updateBlog(
+    blog_id,
+    { title, content, published, author, tags, featuredImage, slug }
+  ) {
     try {
       return await this.database.updateDocument(
         conf.db_id,
@@ -94,7 +95,7 @@ export class Services {
           author,
           tags,
           slug,
-          featuredImage
+          featuredImage,
         }
       );
     } catch (error) {
@@ -106,14 +107,19 @@ export class Services {
   async deleteBlog(blog_id) {
     try {
       const featuredImageId = await this.getBlog(blog_id);
-      
+
       await this.database.deleteDocument(
         conf.db_id,
         conf.blogs_collection_id,
         blog_id
       );
-      await this.deleteFile(featuredImageId);
-      return true;
+      const deletedLikes = await likeServices.deleteAllLikes(blog_id);
+      if (deletedLikes) {
+        await this.deleteFile(featuredImageId);
+        return true;
+      } else {
+        throw new Error("Error deleting likes");
+      }
     } catch (error) {
       console.error("Error deleting blog:", error);
       throw error;
@@ -141,30 +147,31 @@ export class Services {
 
   async getBlogFilePreview(file_id) {
     try {
-      const previewImg = await this.bucket.getFilePreview(conf.bucket_id, file_id);
+      const previewImg = await this.bucket.getFilePreview(
+        conf.bucket_id,
+        file_id
+      );
       return previewImg;
       // return await this.bucket.getFilePreview(conf.bucket_id, file_id).href;
     } catch (error) {
       console.error("Error getting file preview:", error);
       throw error;
     }
+  }
+  async getBlogFile(file_id) {
+    try {
+      const Img = await this.bucket.getFile(conf.bucket_id, file_id);
+      console.log(Img);
+
+      // console.log(previewImg.href);
+
+      return Img;
+      // return await this.bucket.getFilePreview(conf.bucket_id, file_id).href;
+    } catch (error) {
+      console.error("Error getting file preview:", error);
+      throw error;
     }
-    async getBlogFile(file_id){
-      try {
-        const Img = await this.bucket.getFile(conf.bucket_id, file_id);
-        console.log(Img);
-        
-      
-        // console.log(previewImg.href);
-        
-        return Img;
-        // return await this.bucket.getFilePreview(conf.bucket_id, file_id).href;
-      } catch (error) {
-        console.error("Error getting file preview:", error);
-        throw error;
-      }
-    }
-    
+  }
 }
 
 export default new Services();

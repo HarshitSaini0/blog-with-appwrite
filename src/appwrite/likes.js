@@ -50,7 +50,7 @@ export class LikeServices {
         conf.likes_collection_id,
         [Query.equal("blog_id", blog_id)]
       );
-      return result.length;
+      return result.documents.length ? result.documents.length : 0;
     } catch (error) {
       console.error(error);
       return 0;
@@ -108,6 +108,30 @@ export class LikeServices {
       return false;
     }
   }
+  async deleteAllLikes(blog_id) {
+    try {
+      const blogsLiked = await this.database.listDocuments(
+        conf.db_id,
+        conf.likes_collection_id,
+        [Query.equal("blog_id", blog_id)]
+      );
+      const n = blogsLiked.documents.length;
+      if (n <= 0) return true;
+
+      blogsLiked.documents.forEach(async (document) => {
+        await this.database.deleteDocument(
+          conf.db_id,
+          conf.likes_collection_id,
+          document.$id
+        );
+      });
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  }
+
 }
 
 const likeServices = new LikeServices();

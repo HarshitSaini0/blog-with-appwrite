@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-vars */
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import Button from "../Button.jsx";
 import Input from "../Input.jsx";
@@ -65,6 +65,38 @@ export default function PostForm({ post }) {
       console.error(error);
     }
   };
+  const [imagePreview, setImagePreview] = useState(null); // To store the preview URL
+  // const [selectedFile, setSelectedFile] = useState(null); // To store the file object
+  const fetchImage = async (featuredImage) => {
+      if (featuredImage) {
+        try {
+          const url = await appwriteService.getBlogFilePreview(featuredImage);
+          setImagePreview(url);
+        } catch (error) {
+          console.error("Error fetching image URL:", error);
+        }
+      }
+    };
+    useCallback(() => {
+      if (post && post.featuredImage) {
+        fetchImage(post.featuredImage);
+      }
+    }, [post]);
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    console.log(event.target.files[0]);
+    console.log(event.target);
+     // Get the selected file
+    // setSelectedFile(file); // Store the file object
+
+    if (file) {
+      const reader = new FileReader(); // Create a FileReader
+      reader.onload = () => {
+        setImagePreview(reader.result); // Set the preview URL
+      };
+      reader.readAsDataURL(file); // Read the file as a data URL
+    }
+  };
 
   const slugTransformer = useCallback((slugString) => {
     // though I will use id for unique identification of the blog post but I want to try this too.
@@ -115,6 +147,7 @@ export default function PostForm({ post }) {
           // {...register("content", { required: true })}
         />
       </div>
+          
 
       <div className="w-1/3 px-2">
         <Input
@@ -122,17 +155,21 @@ export default function PostForm({ post }) {
           type="file"
           className="mb-4"
           accept="image/png image/jpeg image/jpg"
+          
           {...register("image", { required: !post })}
-        />
-        {post && (
-          <div className="w-full mb-4">
-            <img
-              src={appwriteService.getBlogFilePreview(post.featuredImage)}
-              alt={post.title}
-              className="w-full h-64 object-cover rounded-lg"
-            />
-          </div>
-        )}
+          onChange={handleImageChange}
+          />
+          
+        {(post || imagePreview) && (
+        <div style={{ marginTop: '20px' }}>
+          <h4>Image Preview:</h4>
+          <img
+            src={imagePreview}
+            alt="Preview"
+            style={{ width: '300px', height: 'auto', border: '1px solid #ccc', padding: '10px' }}
+          />
+        </div>
+      )}
         <Select
           options={["active", "inactive"]}
           label="Status :"
@@ -141,7 +178,7 @@ export default function PostForm({ post }) {
         />
         <Button
           type="submit"
-          className={`${post ? "bg-yellow-600" : "bg-green-600"} w-full`}
+          className={`${post ? "bg-orange-400" : "bg-green-600"} w-full`}
         >
           {post ? "Update" : "Submit"}
         </Button>

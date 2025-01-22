@@ -31,11 +31,7 @@ function EditPost() {
     fetchPost();
   }, [postId, navigate]);
 
-  useEffect(() => {
-    if (post) {
-      console.log("Post state updated:", post);
-    }
-  }, [post]);
+  
 
   return (
     <div className="py-6">

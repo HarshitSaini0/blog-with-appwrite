@@ -47,7 +47,7 @@ const Header = () => {
         <nav className="flex items-center justify-between">
           <div className="mr-6">
             <Link to="/">
-              <Logo width="200px" />
+              <Logo width="100px" />
             </Link>
           </div>
           <div className="block md:hidden">
