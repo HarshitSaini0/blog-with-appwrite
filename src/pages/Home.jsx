@@ -25,7 +25,7 @@ function Home() {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       {/* Hero Section with Parallax */}
       <div
         className="relative h-screen flex items-center justify-center bg-fixed bg-cover bg-center"
