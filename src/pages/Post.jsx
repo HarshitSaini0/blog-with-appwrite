@@ -55,7 +55,7 @@ function Post() {
     try {
       if (!postId) return;
       const wantToDelete = prompt("Are you sure you want to delete this post?\nType 'DELETE' to confirm.");
-      if (prompt !== "DELETE") return;
+      if (wantToDelete !== "DELETE") return;
 
       await appwriteService.deleteBlog(postId).then((status) => {
         if (status) {
@@ -124,14 +124,14 @@ function Post() {
             {isAuthor && (
               <div className="flex justify-end space-x-4 mt-4">
                 <Link to={`/edit-post/${post.$id}`}>
-                  <Button>Edit</Button>
+                  <Button>{"📝 "}Edit</Button>
                 </Link>
-                <Button onClick={deletePost}>Delete</Button>
+                <Button onClick={deletePost}>{"🗑️ "}Delete</Button>
               </div>
             )}
             <div className="flex justify-end space-x-4 mt-4">
-              <Button onClick={handleLike}>
-                {currentLike ? "unlike" : "like"} ({likes})
+              <Button onClick={handleLike} className={`${currentLike ? "bg-blue-500" : "bg-gray-500"} text-white`}> 
+                {currentLike ? "Liked 👍" : "Like 👍"} ({likes})
               </Button>
             </div>
           </div>
