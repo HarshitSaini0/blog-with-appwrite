@@ -34,11 +34,9 @@ function EditPost() {
   
 
   return (
-    <div className="py-6">
       <Container>
         {post ? <PostForm post={post} /> : <div>Loading...</div>}
       </Container>
-    </div>
   );
 }
 

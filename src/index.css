@@ -1,3 +1,70 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@layer base {
+    body {
+      @apply transition-colors duration-300;
+    }
+    
+    * {
+      @apply transition-colors duration-200;
+    }
+    
+    .bg-noise {
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    }
+  }
+  @keyframes shooting-star {
+    0% { transform: translate(-100%, -100%); }
+    100% { transform: translate(200vw, 200vh); }
+  }
+  
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .cosmic-hero {
+    background-image: url('./hero-section-dark.gif');
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .cosmic-testimonial {
+    border: 1px solid rgba(125, 131, 255, 0.1);
+  }
+  
+  .cosmic-about {
+    border: 2px solid rgba(125, 131, 255, 0.2);
+  }
+  
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  }
+  .cosmic-image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.5rem;
+    transition: all 0.5s ease;
+  }
+  
+  .cosmic-image {
+    filter: grayscale(20%);
+    transition: filter 0.5s ease, transform 0.5s ease;
+  }
+  
+  .cosmic-image-container:hover .cosmic-image {
+    filter: grayscale(0%) contrast(110%);
+  }
+  
+  .glow {
+    text-shadow: 0 0 15px rgba(125, 131, 255, 0.4);
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .cosmic-image-container:hover .FaRocket {
+    animation: float 2s ease-in-out infinite;
+  }

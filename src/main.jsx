@@ -15,6 +15,7 @@ import EditPost from "./pages/EditPost.jsx";
 import Post from "./pages/Post.jsx";
 import Protected from "./components/AuthLayout.jsx";
 import PaginatedAllPages from "./pages/PaginatedAllPages.jsx";
+import ThemeProvider from "./components/Container/ThemeProvider.jsx";
 
 const router = createBrowserRouter([
   {
@@ -88,7 +89,10 @@ const router = createBrowserRouter([
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
+      <ThemeProvider>
+
       <RouterProvider router={router} />
+      </ThemeProvider>
     </Provider>
   </StrictMode>
 );

@@ -1,9 +1,11 @@
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, Link } from "react-router-dom";
 import appwriteService from "../appwrite/config.js";
 import { Query } from "appwrite";
 import Container from "../components/Container/Container.jsx";
+import { FaArrowLeft, FaRegStar, FaAngleLeft, FaAngleRight } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 function PaginatedAllPages() {
   const [posts, setPosts] = useState([]);
@@ -13,6 +15,7 @@ function PaginatedAllPages() {
   const { page } = useParams();
   const currentPage = parseInt(page, 10) || 0;
   const navigate = useNavigate();
+  const currentTheme = useSelector((state) => state.theme.theme);
 
   useEffect(() => {
     const fetchPosts = async () => {
@@ -75,85 +78,144 @@ function PaginatedAllPages() {
   };
 
   return (
-    <div className="py-6 w-full">
+    <div className={`min-h-screen w-full py-10 px-14 transition-colors duration-500 ${
+      currentTheme === 'dark' 
+        ? 'bg-space-900 text-cosmic-text' 
+        : 'bg-cosmic-dark-primary text-space-900'
+    }`}>
       <Container>
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
+        <div className="mb-8">
+          <Link 
+            to="/all-posts" 
+            className={`inline-flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
+              currentTheme === 'dark'
+                ? 'bg-nebula-400/20 hover:bg-nebula-400/30 text-cosmic-text'
+                : 'bg-space-800/10 hover:bg-space-800/20 text-space-900'
+            }`}
+          >
+            <FaArrowLeft className="mr-1" />
+            Return to Stellar Grid
+          </Link>
+        </div>
+
+        <div className="overflow-x-auto cosmic-table-container">
+          <table className={`min-w-full rounded-xl overflow-hidden ${
+            currentTheme === 'dark' 
+              ? 'bg-space-800/50 backdrop-blur-lg' 
+              : 'bg-white shadow-lg'
+          }`}>
             <thead>
-              <tr>
-                <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Image
+              <tr className={`${
+                currentTheme === 'dark' 
+                  ? 'bg-nebula-400/10' 
+                  : 'bg-cosmic-dark-secondary'
+              }`}>
+                <th className={`px-6 py-4 text-left text-sm font-medium uppercase tracking-wider ${
+                  currentTheme === 'dark' 
+                    ? 'text-nebula-400' 
+                    : 'text-space-800'
+                }`}>
+                  Galactic Preview
                 </th>
-                <th className="px-6 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Title
+                <th className={`px-6 py-4 text-left text-sm font-medium uppercase tracking-wider ${
+                  currentTheme === 'dark' 
+                    ? 'text-nebula-400' 
+                    : 'text-space-800'
+                }`}>
+                  Cosmic Title
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {posts.length > 0 ? (
                 posts.map((post, index) => (
                   <tr
                     key={index}
-                    className="cursor-pointer"
-                    onClick={() => (window.location.href = `/post/${post.$id}`)}
+                    className={`cursor-pointer transition-all hover:bg-nebula-400/5 ${
+                      currentTheme === 'dark' 
+                        ? 'border-b border-nebula-400/10' 
+                        : 'border-b border-space-800/10'
+                    }`}
+                    onClick={() => navigate(`/post/${post.$id}`)}
                   >
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {imageUrls[index] ? (
-                        <img
-                          src={imageUrls[index]}
-                          alt={post.title}
-                          className="h-10 w-10 rounded-full"
-                        />
-                      ) : (
-                        <div>No Image</div>
-                      )}
+                    <td className="px-6 py-4">
+                      <div className="flex items-center">
+                        {imageUrls[index] ? (
+                          <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-nebula-400/20">
+                            <img
+                              src={imageUrls[index]}
+                              alt={post.title}
+                              className="w-full h-full object-cover transform hover:scale-110 transition-transform"
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-16 h-16 rounded-full bg-nebula-400/10 flex items-center justify-center">
+                            <FaRegStar className="text-nebula-400/50 text-xl" />
+                          </div>
+                        )}
+                      </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap">
-                      {post.title ? (
-                        <div className="text-sm font-medium text-gray-900 truncate max-w-xs">
-                          {post.title.length > 30 ? `${post.title.substring(0,30)}...` : post.title}
-                        </div>
-                      ) : (
-                        <div>Invalid post data</div>
-                      )}
+                    <td className="px-6 py-4">
+                      <div className={`text-sm font-medium ${
+                        currentTheme === 'dark' 
+                          ? 'text-cosmic-text' 
+                          : 'text-space-900'
+                      } truncate max-w-xs hover:text-nebula-400 transition-colors`}>
+                        {post.title || 'Mysterious Cosmic Entry'}
+                      </div>
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan="2"
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-500"
-                  >
-                    No posts available
+                  <td colSpan="2" className="px-6 py-8 text-center">
+                    <div className="flex flex-col items-center text-nebula-400/70">
+                      <FaRegStar className="text-4xl mb-4 animate-pulse" />
+                      <p className="text-lg">No Celestial Entries Discovered</p>
+                    </div>
                   </td>
                 </tr>
               )}
             </tbody>
           </table>
         </div>
-        <div className="flex justify-center mt-8 flex-wrap">
+
+        <div className={`flex justify-center mt-8 space-x-2 ${
+          currentTheme === 'dark' ? 'text-cosmic-text' : 'text-space-900'
+        }`}>
           <button
             onClick={() => handlePageChange(Math.max(0, currentPage - 1))}
-            className="mx-1 px-3 py-1 rounded bg-gray-200 text-gray-700"
+            className={`px-4 py-2 rounded-full flex items-center ${
+              currentTheme === 'dark'
+                ? 'bg-nebula-400/20 hover:bg-nebula-400/30'
+                : 'bg-space-800/10 hover:bg-space-800/20'
+            } transition-all ${currentPage === 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={currentPage === 0}
           >
+            <FaAngleLeft className="mr-2" />
             Previous
           </button>
+          
           {renderPageButtons()}
+
           <button
-            onClick={() =>
-              handlePageChange(Math.min(totalPages - 1, currentPage + 1))
-            }
-            className="mx-1 px-3 py-1 rounded bg-gray-200 text-gray-700"
+            onClick={() => handlePageChange(Math.min(totalPages - 1, currentPage + 1))}
+            className={`px-4 py-2 rounded-full flex items-center ${
+              currentTheme === 'dark'
+                ? 'bg-nebula-400/20 hover:bg-nebula-400/30'
+                : 'bg-space-800/10 hover:bg-space-800/20'
+            } transition-all ${currentPage === totalPages - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
             disabled={currentPage === totalPages - 1}
           >
             Next
+            <FaAngleRight className="ml-2" />
           </button>
         </div>
       </Container>
     </div>
   );
+
+ 
 }
 
 export default PaginatedAllPages;
