@@ -14,6 +14,7 @@ import {
 import SpaceBlogCard from "../components/SpaceBlogCard.jsx";
 import StatsSection from "../components/StatSection.jsx";
 import HeroSection from "../components/HeroSection.jsx";
+import FancyImage from "../components/FancyImage.jsx";
 
 function Home() {
   const currentTheme = useSelector((state) => state.theme.theme);
@@ -148,13 +149,7 @@ function Home() {
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative rounded-2xl overflow-hidden shadow-xl cosmic-about" data-aos="fade-right">
-              <img
-                src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=2070"
-                alt="About us"
-                className="w-full h-96 object-cover"
-              />
-            </div>
+            <FancyImage/>
             <div className="space-y-6" data-aos="fade-left">
               <h2 className="text-3xl md:text-4xl font-bold text-nebula-400">
                 About Our Cosmic Platform

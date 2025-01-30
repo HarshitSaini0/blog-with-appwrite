@@ -68,3 +68,28 @@
   .cosmic-image-container:hover .FaRocket {
     animation: float 2s ease-in-out infinite;
   }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-1rem); }
+  }
+  
+  @keyframes shine {
+    to { background-position: 200% center; }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-float-delay-1 {
+    animation: float 6s ease-in-out infinite 0.3s;
+  }
+  
+  .animate-float-delay-2 {
+    animation: float 6s ease-in-out infinite 0.6s;
+  }
+  
+  .animate-shine {
+    background-size: 200% auto;
+    animation: shine 8s linear infinite;
+  }
