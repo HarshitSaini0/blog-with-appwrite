@@ -46,102 +46,110 @@ These choices reflect a trend toward using backend-as-a-service tools combined w
 
 1. **Clone the Repository**:
    ```bash
-   git clone [repository-url](https://github.com/HarshitSaini0/blog-with-appwrite)
-   ```
+   git clone <repository-url>
+````
+
+Replace `<repository-url>` with the actual URL.
 
 2. **Navigate to the Project Directory**:
+
    ```bash
    cd blog-with-appwrite
-    ```
-3. **Install Dependencies:**
-   ```bash
-    pnpm install
-    # or
-    npm install
-    # or
-    yarn install
    ```
+
+3. **Install Dependencies**:
+
+   ```bash
+   pnpm install
+   # or
+   npm install
+   # or
+   yarn install
+   ```
+
 ### Configuration
-**Appwrite SDK Setup:**
-Initialize Appwrite with your Project ID and endpoint (typically https://cloud.appwrite.io/v1). Do this in a file like appwriteConfig.js.
 
-  **Environment Variables:**
-  Duplicate sample.env to .env and update it with:
+* **Appwrite SDK Setup**:
+  Initialize Appwrite with your **Project ID** and endpoint (typically `https://cloud.appwrite.io/v1`). Do this in a file like `appwriteConfig.js`.
 
-        API key
+* **Environment Variables**:
+  Duplicate `sample.env` to `.env` and update it with:
 
-        Project ID
+  * API key
+  * Project ID
+  * Database ID
+  * Bucket ID
+    Don’t forget to add `.env` to `.gitignore`.
 
-        Database ID
+* **Backend Setup (Optional)**:
+  Create databases, collections, and storage buckets in your Appwrite console as needed. Refer to the [official Appwrite docs](https://appwrite.io/docs).
 
-        Bucket ID
-        Don’t forget to add .env to .gitignore.
-
-    Backend Setup (Optional):
-    Create databases, collections, and storage buckets in your Appwrite console as needed. Refer to the official Appwrite docs.
-
-Running the Application
-
-Start the dev server with:
-Running the Application
+### Running the Application
 
 Start the dev server with:
 
+```bash
 pnpm run dev
 # or
 npm start
 # or
 yarn start
+```
 
-Then open http://localhost:3000 in your browser.
-Planned Features (Optional)
+Then open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Planned Features (Optional)
 
 Future enhancements include:
 
-    Rich text editor for blog post creation
+* Rich text editor for blog post creation
+* Image/media uploads via Appwrite Storage
+* Tagging and categorization
+* Pagination for large post sets
+* User roles/permissions
+* Social media integration for sharing posts
 
-    Image/media uploads via Appwrite Storage
-
-    Tagging and categorization
-
-    Pagination for large post sets
-
-    User roles/permissions
-
-    Social media integration for sharing posts
-
-Contributing
+## Contributing
 
 Contributions are welcome! Follow these steps:
 
-    Fork the Repository via GitHub
+1. **Fork the Repository** via GitHub
 
-    Clone Your Fork:
+2. **Clone Your Fork**:
 
-git clone https://github.com/your-username/blog-with-appwrite.git
-cd blog-with-appwrite
+   ```bash
+   git clone https://github.com/your-username/blog-with-appwrite.git
+   cd blog-with-appwrite
+   ```
 
-Create a New Branch:
+3. **Create a New Branch**:
 
-git checkout -b feature/your-feature-name
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
 
-Make Your Changes
+4. **Make Your Changes**
 
-Commit Changes:
+5. **Commit Changes**:
 
-git add .
-git commit -m "Add your commit message here"
+   ```bash
+   git add .
+   git commit -m "Add your commit message here"
+   ```
 
-Push to Your Fork:
+6. **Push to Your Fork**:
 
-    git push origin feature/your-feature-name
+   ```bash
+   git push origin feature/your-feature-name
+   ```
 
-    Create a Pull Request via GitHub
+7. **Create a Pull Request** via GitHub
 
-For contributing best practices, see the Appwrite Contributing Guidelines.
-Contact
+For contributing best practices, see the [Appwrite Contributing Guidelines](https://github.com/appwrite/appwrite/blob/master/CONTRIBUTING.md).
 
-Harshit Saini
-📧 harshit.saini.ngh@gmail.com
-🔗 LinkedIn
+## Contact
+
+**Harshit Saini**
+📧 [harshit.saini.ngh@gmail.com](mailto:harshit.saini.ngh@gmail.com)
+🔗 [LinkedIn](https://www.linkedin.com/in/harshitsainibcis/)
 
