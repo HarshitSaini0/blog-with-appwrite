@@ -46,10 +46,10 @@ These choices reflect a trend toward using backend-as-a-service tools combined w
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
-````
+   git clone [<repository-url>](https://github.com/HarshitSaini0/blog-with-appwrite)
+   ```
 
-Replace `<repository-url>` with the actual URL.
+Replace `[<repository-url>](https://github.com/HarshitSaini0/blog-with-appwrite)` with the actual URL.
 
 2. **Navigate to the Project Directory**:
 
