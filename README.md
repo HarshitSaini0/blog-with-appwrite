@@ -145,6 +145,3 @@ Harshit Saini
 📧 harshit.saini.ngh@gmail.com
 🔗 LinkedIn
 
-
-Let me know if you'd like this formatted as a downloadable `.md` file.
-
